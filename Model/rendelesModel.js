@@ -2,7 +2,22 @@ import pool from '../db.js';
 const rendelesModel = {};
 
 export const getRendelesek = async () => {
-    const [rows] = await pool.query('SELECT * FROM rendeles');
+    const [rows] = await pool.query(`
+        SELECT 
+            r.razon AS rendeles_id,
+            r.vazon AS vevo_id,
+            r.fazon AS futar_id,
+            r.idopont,
+            t.pazon AS pizza_id,
+            p.pnev AS pizza_nev,
+            p.par AS pizza_ar,
+            t.db AS darabszam,
+            (p.par * t.db) AS osszeg
+        FROM rendeles r
+        JOIN tetel t ON r.razon = t.razon
+        JOIN pizza p ON t.pazon = p.pazon
+        ORDER BY r.razon
+    `);
     return rows;
 };
 
