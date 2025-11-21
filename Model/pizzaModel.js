@@ -12,16 +12,15 @@ export const getPizzaById = async (id) => {
 };
 
 export const addPizza = async (pizza) => {
-    const { nev, ar, leiras } = pizza;
-    const [result] = await pool.execute('INSERT INTO pizza (pnev, par, pleiras) VALUES (?, ?, ?)', [nev, ar, leiras]);
+    const { nev, ar } = pizza;
+    const [result] = await pool.execute('INSERT INTO pizza (pnev, par) VALUES (?, ?)', [nev, ar]);
     return result.insertId;
 };  
 
 export const updatePizza = async (id, pizza) => {
-    const { nev, ar, leiras } = pizza;
-    await pool.execute('UPDATE pizza SET pnev = ?, par = ?, pleiras = ? WHERE pazon = ?', [nev, ar, leiras, id]);   
-                        
-};
+    const { nev, ar } = pizza;
+    await pool.execute('UPDATE pizza SET pnev = ?, par = ? WHERE pazon = ?', [nev, ar, id]);   
+} ;     
 
 export const deletePizza = async (id) => {
     const [result] = await pool.execute(
